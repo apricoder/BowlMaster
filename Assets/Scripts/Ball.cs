@@ -2,7 +2,7 @@
 
 public class Ball : MonoBehaviour {
 
-  public int InitialSpeed = 700;
+  public Vector3 InitialVelocity = new Vector3(0.0f, -0.3f, 700.0f);
   
   private Rigidbody _rigidbody;
   private AudioSource _audioSource;
@@ -12,7 +12,7 @@ public class Ball : MonoBehaviour {
     _rigidbody = GetComponent<Rigidbody>();
     _audioSource = GetComponent<AudioSource>();
 
-    _rigidbody.velocity = new Vector3(0.0f, -0.3f, 1.0f) * InitialSpeed;
+    _rigidbody.velocity = InitialVelocity;
     _audioSource.Play();
   }
 
