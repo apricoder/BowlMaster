@@ -4,7 +4,7 @@ public class Ball : MonoBehaviour {
   
   public static readonly float DefaultYVelocity = -0.3f;
 
-  public Vector3 InitialVelocity = new Vector3(0.0f, DefaultYVelocity, 700.0f);
+  public bool IsLaunched;
 
   private Rigidbody _rigidbody;
   private AudioSource _audioSource;
@@ -20,6 +20,7 @@ public class Ball : MonoBehaviour {
     _rigidbody.useGravity = true;
     _rigidbody.velocity = velocity;
     _audioSource.Play();
+    IsLaunched = true;
   }
   
 }
