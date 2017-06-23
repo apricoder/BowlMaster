@@ -5,11 +5,12 @@ using UnityEngine;
 public class BowlingPin : MonoBehaviour {
 
   public float StandingThreshold = 3.0f;
+  public float MoveThreshold = 3.0f;
 
   public bool IsStanding() {
     return
       transform.rotation.eulerAngles.x <= StandingThreshold &&
-      transform.rotation.eulerAngles.z <= StandingThreshold;
+      transform.rotation.eulerAngles.z <= StandingThreshold &&
+      Mathf.Abs(transform.position.y) <= 5;
   }
-
 }
