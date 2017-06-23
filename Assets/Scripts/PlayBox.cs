@@ -16,14 +16,22 @@ public class PlayBox : MonoBehaviour {
 
 	private void Update() {
 		if (_countingScore) {
-			_standingPinsCount = _pins.Count(p => p.IsStanding());
+			_standingPinsCount = _pins.Count(p => p && p.IsStanding());
 			_standingPinsCountText.GetComponent<Text>().text = _standingPinsCount.ToString();
 		}
 	}
 
 	private void OnTriggerEnter(Collider other) {
 		if (other.gameObject.GetComponent<Ball>()) {
+			_standingPinsCountText.GetComponent<Text>().color = Color.red;
 			_countingScore = true;
+		}
+	}
+
+	private void OnTriggerExit(Collider other) {
+		var parentGo = other.gameObject.transform.parent.gameObject;
+		if (parentGo.GetComponent<BowlingPin>()) {
+			Destroy(parentGo);
 		}
 	}
 
