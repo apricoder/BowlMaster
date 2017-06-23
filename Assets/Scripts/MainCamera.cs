@@ -12,7 +12,7 @@ public class MainCamera : MonoBehaviour {
   }
 
   private void Update() {
-    if (transform.position.z < StopObject.transform.position.z) {
+    if (transform.position.z < StopObject.transform.position.z - 100) {
       transform.position = Ball.transform.position + _offset;
     }
   }
