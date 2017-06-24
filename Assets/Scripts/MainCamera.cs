@@ -4,7 +4,7 @@ public class MainCamera : MonoBehaviour {
 
   public Ball Ball;
   public GameObject StopObject;
-  
+
   private Vector3 _offset;
 
   private void Start() {

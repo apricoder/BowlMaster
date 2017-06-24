@@ -13,4 +13,5 @@ public class BowlingPin : MonoBehaviour {
       transform.rotation.eulerAngles.z <= StandingThreshold &&
       Mathf.Abs(transform.position.y) <= 5;
   }
+
 }
