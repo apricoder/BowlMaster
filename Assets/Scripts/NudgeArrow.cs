@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class NudgeArrow : MonoBehaviour {
 
@@ -23,14 +21,14 @@ public class NudgeArrow : MonoBehaviour {
   }
 
   private void Update() {
-    var offset = FrameOffset * DirectionOf(transform.localScale.x);
-    var doesntOverflow = Mathf.Abs(_ball.transform.position.x + offset) <= MaxOffset;
+    var frameOffset = FrameOffset * DirectionOf(transform.localScale.x);
+    var doesntOverflow = Mathf.Abs(_ball.transform.position.x + frameOffset) <= MaxOffset;
     if (_touching && !_ball.IsLaunched && doesntOverflow) {
-      _ball.transform.Translate(Vector3.right * offset);
+      _ball.transform.Translate(Vector3.right * frameOffset);
     }
   }
 
-  private int DirectionOf(float value) {
+  private static int DirectionOf(float value) {
     return value >= 0 ? 1 : -1;
   }
 

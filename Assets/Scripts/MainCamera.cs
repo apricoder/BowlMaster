@@ -3,6 +3,7 @@
 public class MainCamera : MonoBehaviour {
 
   public Ball Ball;
+  public int StopOffset = 100;
   public GameObject StopObject;
 
   private Vector3 _offset;
@@ -12,7 +13,7 @@ public class MainCamera : MonoBehaviour {
   }
 
   private void Update() {
-    if (Ball.transform.position.z < StopObject.transform.position.z - 100) {
+    if (Ball.transform.position.z < StopObject.transform.position.z - StopOffset) {
       transform.position = Ball.transform.position + _offset;
     }
   }

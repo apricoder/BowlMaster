@@ -15,22 +15,20 @@ public class TouchHandler : MonoBehaviour {
 
   public void OnDragStart(BaseEventData eventData) {
     var pointerData = eventData as PointerEventData;
-    if (pointerData != null) {
-      _dragStartPosition = pointerData.position;
-      _dragStartTime = Time.timeSinceLevelLoad;
-    }
+    if (pointerData == null) return;
+    _dragStartPosition = pointerData.position;
+    _dragStartTime = Time.timeSinceLevelLoad;
   }
 
   public void OnDragEnd(BaseEventData eventData) {
     var pointerData = eventData as PointerEventData;
-    if (pointerData != null) {
-      var dragEndPosition = pointerData.position;
-      var dragEndTime = Time.timeSinceLevelLoad;
-      var dragDuration = dragEndTime - _dragStartTime;
-      var dragVector = _dragStartPosition - dragEndPosition;
-      var translatedVector = new Vector3(-dragVector.x, Ball.DefaultYVelocity, -dragVector.y);
-      _ball.Launch(LimitedVelocity(translatedVector / dragDuration));
-    }
+    if (pointerData == null) return;
+    var dragEndPosition = pointerData.position;
+    var dragEndTime = Time.timeSinceLevelLoad;
+    var dragDuration = dragEndTime - _dragStartTime;
+    var dragVector = _dragStartPosition - dragEndPosition;
+    var translatedVector = new Vector3(-dragVector.x, Ball.DefaultYVelocity, -dragVector.y);
+    _ball.Launch(LimitedVelocity(translatedVector / dragDuration));
   }
 
   private static Vector3 LimitedVelocity(Vector3 velocity) {

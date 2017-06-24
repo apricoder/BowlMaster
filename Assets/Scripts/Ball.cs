@@ -15,7 +15,6 @@ public class Ball : MonoBehaviour {
     _rigidbody = GetComponent<Rigidbody>();
     _audioSource = GetComponent<AudioSource>();
     _rigidbody.useGravity = false;
-    // Launch(InitialVelocity);
   }
 
   public void Launch(Vector3 velocity) {

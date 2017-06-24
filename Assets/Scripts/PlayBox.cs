@@ -12,29 +12,24 @@ public class PlayBox : MonoBehaviour {
 
   private Ball _ball;
   private BowlingPin[] _pins;
-  private PinsCountText _standingPinsCountText;
-  private Animator _animator;
   private Elevator _elevator;
   private Vector3 _savedPosition;
+  private GameObject _closet;
+  private PinsCountText _standingPinsCountText;
   private float _standingPinsCountChangeTime;
   private int _standingPinsCount;
   private bool _countingScore;
-  private GameObject _closet;
 
   private void Start() {
     _ball = FindObjectOfType<Ball>();
     _elevator = FindObjectOfType<Elevator>();
     _closet = GameObject.Find("Closet");
     _pins = FindObjectsOfType<BowlingPin>();
-    _animator = GetComponent<Animator>();
     _standingPinsCountText = FindObjectOfType<PinsCountText>();
   }
 
   private void Update() {
     var standingCount = _pins.Count(p => p && p.IsStanding());
-
-    // ignore _countingScore if want to display
-    // actual count of pins outside of launch 
     if (_standingPinsCount != standingCount) {
       UpdateStandingPinsCount(standingCount);
     }
@@ -47,14 +42,14 @@ public class PlayBox : MonoBehaviour {
 
   private void UpdateStandingPinsCount(int standingCount) {
     _standingPinsCount = standingCount;
-    _standingPinsCountText.GetComponent<Text>().text = _standingPinsCount.ToString();
     _standingPinsCountChangeTime = Time.timeSinceLevelLoad;
+    _standingPinsCountText.GetComponent<Text>().text = _standingPinsCount.ToString();
   }
 
   private void PinsHaveSettled() {
+    _countingScore = false;
     _standingPinsCountText.GetComponent<Text>().color = Color.green;
     _ball.Invoke(Name.OfMethod(_ball.ResetPosition), 2.0f);
-    _countingScore = false;
   }
 
   private void OnTriggerEnter(Collider other) {
@@ -74,8 +69,8 @@ public class PlayBox : MonoBehaviour {
 
   public void AttachStandingPinsToElevator() {
     foreach (var pin in _pins.Where(p => p && p.IsStanding())) {
-      var pinHolder = pin.gameObject.transform.parent;
       pin.GetComponent<Rigidbody>().useGravity = false;
+      var pinHolder = pin.gameObject.transform.parent;
       pinHolder.transform.parent = _elevator.gameObject.transform;
     }
   }
@@ -90,32 +85,27 @@ public class PlayBox : MonoBehaviour {
   }
 
   public void OnLowerEnd() {
-    var pinsPositions = new ArrayList();
-    foreach (var child in _elevator.transform) {
-      pinsPositions.Add(child);
-    }
-    
-    foreach (Transform pinPosition in pinsPositions) {
+    foreach (Transform pinPosition in GetChildren(_elevator.transform)) {
       pinPosition.parent = FindObjectOfType<Pins>().transform;
       pinPosition.GetComponentInChildren<Rigidbody>().useGravity = true;
     }
-    
-    // _standingPinsCountText.GetComponent<Text>().color = Color.black;
   }
 
   public void OnRenewStart() {
-    var pinsPositions = new ArrayList();
-    foreach (var child in FindObjectOfType<Pins>().transform) {
-      pinsPositions.Add(child);
-    }
-    
-    foreach (Transform pinsPosition in pinsPositions) {
+    foreach (Transform pinsPosition in GetChildren(FindObjectOfType<Pins>().transform)) {
       pinsPosition.SetParent(_elevator.transform);
       var pin = Instantiate(PinPrefab, pinsPosition);
       pin.GetComponent<Rigidbody>().useGravity = false;
     }
-    
     _pins = FindObjectsOfType<BowlingPin>();
+  }
+
+  private static ArrayList GetChildren(Transform parent) {
+    var pinsPositions = new ArrayList();
+    foreach (var child in parent) {
+      pinsPositions.Add(child);
+    }
+    return pinsPositions;
   }
 
 }
