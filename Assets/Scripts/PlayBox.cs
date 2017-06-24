@@ -35,7 +35,7 @@ public class PlayBox : MonoBehaviour {
 
     // ignore _countingScore if want to display
     // actual count of pins outside of launch 
-    if (_countingScore && _standingPinsCount != standingCount) {
+    if (_standingPinsCount != standingCount) {
       UpdateStandingPinsCount(standingCount);
     }
 
@@ -99,6 +99,8 @@ public class PlayBox : MonoBehaviour {
       pinPosition.parent = FindObjectOfType<Pins>().transform;
       pinPosition.GetComponentInChildren<Rigidbody>().useGravity = true;
     }
+    
+    // _standingPinsCountText.GetComponent<Text>().color = Color.black;
   }
 
   public void OnRenewStart() {

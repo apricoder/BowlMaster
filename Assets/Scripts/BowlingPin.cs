@@ -10,8 +10,7 @@ public class BowlingPin : MonoBehaviour {
   public bool IsStanding() {
     return
       transform.rotation.eulerAngles.x <= StandingThreshold &&
-      transform.rotation.eulerAngles.z <= StandingThreshold &&
-      Mathf.Abs(transform.position.y) <= 5;
+      transform.rotation.eulerAngles.z <= StandingThreshold;
   }
 
 }
